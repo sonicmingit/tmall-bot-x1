@@ -495,7 +495,8 @@ var vm = new Vue({
                 jsonData:jsonData,
                 zone:obj.zone,
                 virtual:1,
-                states:states
+                states:states,
+                zone:obj.zone
 
             },
             {emulateJSON:true}

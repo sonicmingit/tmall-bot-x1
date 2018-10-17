@@ -545,16 +545,19 @@ var vm = new Vue({
         var timestamp =Date.parse(new Date());
         var url ='service.php?v=add';
         console.log(url);
+          //截取设备属性
+        var domain =obj.deviceId.substr(0,obj.deviceId.indexOf("."));
         this.$http.post(
-            url,
-            {
-                deviceId:obj.deviceId,
-                deviceName:obj.deviceName,
-		jsonData:jsonData,
-		virtual :"0",
-		states  :""
-                
-            },
+          url,
+          {
+              deviceId:obj.deviceId,
+              deviceName:obj.deviceName,
+              jsonData:jsonData,
+              virtual :"0",
+              states  : domain,
+              zone:obj.zone
+              
+          },
             {emulateJSON:true}
 
             ).then(

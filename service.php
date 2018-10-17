@@ -19,7 +19,8 @@ if ($v=="v"){
     $deviceId=$_REQUEST['deviceId'];
     $jsonData=$_REQUEST['jsonData'];
 	$virtual=$_REQUEST['virtual'];
-        $devices=$_REQUEST['states'];
+    $devices=$_REQUEST['states'];
+    $zone=$_REQUEST['zone'];
 	if($virtual!="1"){
 		$virtual="0";
 	}
@@ -28,7 +29,7 @@ if ($v=="v"){
     if(existDevice($user_id,$deviceId)){
 	#已经存在，更新    
     
-    	if(updateDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices)){
+    	if(updateDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices,$zone)){
         	echo "{\"code\" : \"ok\",\"Msg\":\"已存在，更新成功！\"}";
     	}
     	else{
@@ -37,7 +38,7 @@ if ($v=="v"){
     }
     else{
 	#没有，新增
-        if(insertDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices))
+        if(insertDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices,$zone))
 	{
 	    echo "{\"code\" : \"ok\",\"Msg\":\"增加成功！\"}";
 	}
