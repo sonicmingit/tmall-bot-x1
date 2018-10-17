@@ -5,7 +5,9 @@ function my_db(){
 $dsn = DBNAME;
 $user = DBUSER;
 $pwd = DBPASS;
-$db = new PDO($dsn, $user, $pwd);
+#$db = new PDO($dsn, $user, $pwd);
+# 修复数据库写入读取乱码问题
+$db = new PDO($dsn, $user, $pwd,array(PDO::MYSQL_ATTR_INIT_COMMAND => "set names utf8");
 return $db;
 }
 function getUseridFromAccesstoken($token)
@@ -64,7 +66,7 @@ function deleteDevice($user_id,$deviceId)
 function updateDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices)
 {
         $db = my_db();
-        $stm = $db->prepare("update oauth_devices set (deviceName=:deviceName,jsonData=:jsonData,virtual=:virtual,devices=:devices)  where user_id=:user_id and deviceId=:deviceId)");
+        $stm = $db->prepare("update oauth_devices set (deviceName=:deviceName,jsonData=:jsonData,`virtual`=:virtual,devices=:devices)  where user_id=:user_id and deviceId=:deviceId)");
         $stm->bindParam(":user_id",$user_id,PDO::PARAM_STR);
         $stm->bindParam(":deviceName",$deviceName,PDO::PARAM_STR);
         $stm->bindParam(":deviceId",$deviceId,PDO::PARAM_STR);
@@ -87,7 +89,7 @@ function updateDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices
 function insertDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices)
 {
         $db = my_db();
-        $stm = $db->prepare("insert into oauth_devices (user_id,deviceName,deviceId,jsonData,virtual,devices)  values(:user_id,:deviceName,:deviceId,:jsonData,:virtual,:devices)");
+        $stm = $db->prepare("insert into oauth_devices (user_id,deviceName,deviceId,jsonData,`virtual`,devices)  values(:user_id,:deviceName,:deviceId,:jsonData,:virtual,:devices)");
         $stm->bindParam(":user_id",$user_id,PDO::PARAM_STR);
         $stm->bindParam(":deviceName",$deviceName,PDO::PARAM_STR);
         $stm->bindParam(":deviceId",$deviceId,PDO::PARAM_STR);
