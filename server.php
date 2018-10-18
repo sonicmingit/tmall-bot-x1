@@ -7,7 +7,7 @@ $user = DBUSER;
 $pwd = DBPASS;
 // $db = new PDO($dsn, $user, $pwd);
 //  修复数据库写入读取乱码问题
-$db = new PDO($dsn, $user, $pwd,array(PDO::MYSQL_ATTR_INIT_COMMAND => "set names utf8");
+$db = new PDO($dsn, $user, $pwd,array(PDO::MYSQL_ATTR_INIT_COMMAND => "set names utf8"));
 return $db;
 }
 function getUseridFromAccesstoken($token)
