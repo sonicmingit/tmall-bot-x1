@@ -120,8 +120,9 @@ var vm = new Vue({
 				title:'天猫精灵设备管理',
 	nocice:'微博点个赞吧:https://weibo.com/1147593092/Ga4E4oMaN?type=comment',
 	logo:[
-		{"img":"https://bbs.hassbian.com/static/image/common/logo.png","link":"https://bbs.hassbian.com"},
 		{"img":"https://home-assistant.io/demo/favicon-192x192.png","link":"javascript:;"},
+		{"img":"https://bbs.hassbian.com/static/image/common/logo.png","link":"https://bbs.hassbian.com"},
+		{"img":"https://open.bot.tmall.com/public/img/logo.png","link":"https://open.bot.tmall.com/"},
 	],
 			},
 			//HomeAssistant_deviceList:
