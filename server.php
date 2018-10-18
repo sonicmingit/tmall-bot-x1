@@ -5,7 +5,9 @@ function my_db(){
 $dsn = DBNAME;
 $user = DBUSER;
 $pwd = DBPASS;
-$db = new PDO($dsn, $user, $pwd);
+// $db = new PDO($dsn, $user, $pwd);
+//解决数据库插入读取乱码问题
+$db = new PDO($dsn, $user, $pwd,array(PDO::MYSQL_ATTR_INIT_COMMAND => "set names utf8"));
 return $db;
 }
 function getUseridFromAccesstoken($token)
@@ -61,16 +63,17 @@ function deleteDevice($user_id,$deviceId)
 	return $stm;
 
 }	
-function updateDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices)
+function updateDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices,$zone)
 {
         $db = my_db();
-        $stm = $db->prepare("update oauth_devices set (deviceName=:deviceName,jsonData=:jsonData,virtual=:virtual,devices=:devices)  where user_id=:user_id and deviceId=:deviceId)");
+        $stm = $db->prepare("update oauth_devices set (deviceName=:deviceName,jsonData=:jsonData,`virtual`=:virtual,devices=:devices,zone=:zone)  where user_id=:user_id and deviceId=:deviceId)");
         $stm->bindParam(":user_id",$user_id,PDO::PARAM_STR);
         $stm->bindParam(":deviceName",$deviceName,PDO::PARAM_STR);
         $stm->bindParam(":deviceId",$deviceId,PDO::PARAM_STR);
         $stm->bindParam(":jsonData",$jsonData,PDO::PARAM_STR);
 	$stm->bindParam(":virtual",$virtual,PDO::PARAM_STR);
         $stm->bindParam(":devices",$devices,PDO::PARAM_STR);
+        $stm->bindParam(":zone",$zone,PDO::PARAM_STR);
         $stm->execute();
 	return $stm;
 	#$result = $stm->fetch(PDO::FETCH_ASSOC);
@@ -84,16 +87,18 @@ function updateDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices
         #}
 
 }
-function insertDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices)
+function insertDevice($user_id,$deviceName,$deviceId,$jsonData,$virtual,$devices,$zone)
 {
         $db = my_db();
-        $stm = $db->prepare("insert into oauth_devices (user_id,deviceName,deviceId,jsonData,virtual,devices)  values(:user_id,:deviceName,:deviceId,:jsonData,:virtual,:devices)");
+        $stm = $db->prepare("insert into oauth_devices (user_id,deviceName,deviceId,jsonData,`virtual`,devices,zone)  values(:user_id,:deviceName,:deviceId,:jsonData,:virtual,:devices,:zone)");
+        // $stm = $db->prepare("insert into oauth_devices (user_id,deviceName,deviceId,jsonData,virtual,devices)  values(:user_id,:deviceName,:deviceId,:jsonData,:virtual,:devices)");
         $stm->bindParam(":user_id",$user_id,PDO::PARAM_STR);
         $stm->bindParam(":deviceName",$deviceName,PDO::PARAM_STR);
         $stm->bindParam(":deviceId",$deviceId,PDO::PARAM_STR);
         $stm->bindParam(":jsonData",$jsonData,PDO::PARAM_STR);
         $stm->bindParam(":virtual",$virtual,PDO::PARAM_STR);
         $stm->bindParam(":devices",$devices,PDO::PARAM_STR);	
+        $stm->bindParam(":zone",$zone,PDO::PARAM_STR);	
 	$stm->execute();
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 	if ($stm->rowCount()>0)
